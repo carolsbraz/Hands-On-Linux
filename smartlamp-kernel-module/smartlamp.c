@@ -118,6 +118,8 @@ static int usb_send_cmd(char *cmd, int param) {
         }
 
         // adicione a sua implementação do médodo usb_read_serial
+        usb_read_serial();
+
     }
     return -1; // Não recebi a resposta esperada do dispositivo
 }
@@ -133,6 +135,7 @@ static ssize_t attr_show(struct kobject *sys_obj, struct kobj_attribute *attr, c
     printk(KERN_INFO "SmartLamp: Lendo %s ...\n", attr_name);
 
     // Implemente a leitura do valor do led ou ldr usando a função usb_send_cmd()
+    
 
     sprintf(buff, "%d\n", value);                   // Cria a mensagem com o valor do led, ldr
     return strlen(buff);

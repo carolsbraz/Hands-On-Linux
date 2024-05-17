@@ -67,23 +67,33 @@ static void usb_disconnect(struct usb_interface *interface) {
 
 static int usb_read_serial() {
     int ret, actual_size;
-    int retries = 10;                       // Tenta algumas vezes receber uma resposta da USB. Depois desiste.
+    int retries = 10;  // Tenta algumas vezes receber uma resposta da USB. Depois desiste.
+    char pattern[] = "RES_LDR 1";  // auxiliar para ver se o comando é RES_LDR 1 
+    int pattern_len = strlen(pattern);  // tamanho
+    int X = 0;  // Valor esperado
 
     // Espera pela resposta correta do dispositivo (desiste depois de várias tentativas)
     while (retries > 0) {
         // Lê os dados da porta serial e armazena em usb_in_buffer
-            // usb_in_buffer - contem a resposta em string do dispositivo
-            // actual_size - contem o tamanho da resposta em bytes
+        // usb_in_buffer - contem a resposta em string do dispositivo
+        // actual_size - contem o tamanho da resposta em bytes
         ret = usb_bulk_msg(smartlamp_device, usb_rcvbulkpipe(smartlamp_device, usb_in), usb_in_buffer, min(usb_max_size, MAX_RECV_LINE), &actual_size, 1000);
         if (ret) {
-            printk(KERN_ERR "SmartLamp: Erro ao ler dados da USB (tentativa %d). Codigo: %d\n", ret, retries--);
+            printk(KERN_ERR "SmartLamp: Erro ao ler dados da USB (tentativa %d). Codigo: %d\n", retries--, ret);
             continue;
         }
 
-        //caso tenha recebido a mensagem 'RES_LDR X' via serial acesse o buffer 'usb_in_buffer' e retorne apenas o valor da resposta X
-        //retorne o valor de X em inteiro
-        return 0;
+        //checar se é  "RES_LDR 1"
+        if (strncmp(usb_in_buffer, pattern, pattern_len) == 0) {
+            //converte para int
+            if (kstrtoint(usb_in_buffer + pattern_len, 10, &X) == 0) {
+                return X;
+            } 
+        } else {
+            printk(KERN_ERR "SmartLamp: Resposta inesperada do dispositivo: %s\n", usb_in_buffer);
+        }
+        retries--;
     }
 
-    return -1; 
 }
+        
