@@ -1,44 +1,65 @@
 // Defina os pinos de LED e LDR
-// Defina uma variável com valor máximo do LDR (4000)
-// Defina uma variável para guardar o valor atual do LED (10)
-int ledPin;
-int ledValue;
+int ledPin = 16;
+int ldrPin = 4;
 
-int ldrPin;
-// Faça testes no sensor ldr para encontrar o valor maximo e atribua a variável ldrMax
-int ldrMax;
+// Defina uma variável com valor máximo do LDR (4000)
+int ldrMax = 4000;
+
+// Defina uma variável para guardar o valor atual do LED (10)
+int ledValue = 10;
 
 void setup() {
     Serial.begin(9600);
-    
     pinMode(ledPin, OUTPUT);
     pinMode(ldrPin, INPUT);
     
+    // Inicializa o LED com o valor padrão
+    ledUpdate();
+    
     Serial.printf("SmartLamp Initialized.\n");
-
-
 }
 
 // Função loop será executada infinitamente pelo ESP32
 void loop() {
-    //Obtenha os comandos enviados pela serial 
-    //e processe-os com a função processCommand
+    // Obtenha os comandos enviados pela serial 
+    // e processe-os com a função processCommand
+    if (Serial.available()) {
+        String command = Serial.readStringUntil('\n');
+        processCommand(command);
+    }
 }
 
-
 void processCommand(String command) {
-    // compare o comando com os comandos possíveis e execute a ação correspondente      
+    command.trim();
+    
+    if (command.startsWith("SET_LED ")) {
+        int intensity = command.substring(8).toInt();
+        if (intensity >= 0 && intensity <= 100) {
+            ledValue = intensity;
+            ledUpdate();
+            Serial.println("RES SET_LED 1");
+        } else {
+            Serial.println("RES SET_LED -1");
+        }
+    } else if (command.equals("GET_LED")) {
+        Serial.printf("RES GET_LED %d\n", ledValue);
+    } else if (command.equals("GET_LDR")) {
+        int ldrValue = ldrGetValue();
+        Serial.printf("RES GET_LDR %d\n", ldrValue);
+    } else {
+        Serial.println("ERR Unknown command.");
+    }
 }
 
 // Função para atualizar o valor do LED
 void ledUpdate() {
-    // Valor deve convertar o valor recebido pelo comando SET_LED para 0 e 255
-    // Normalize o valor do LED antes de enviar para a porta correspondente
+    int normalizedValue = map(ledValue, 0, 100, 0, 255);
+    analogWrite(ledPin, normalizedValue);
 }
 
 // Função para ler o valor do LDR
 int ldrGetValue() {
-    // Leia o sensor LDR e retorne o valor normalizado entre 0 e 100
-    // faça testes para encontrar o valor maximo do ldr (exemplo: aponte a lanterna do celular para o sensor)       
-    // Atribua o valor para a variável ldrMax e utilize esse valor para a normalização
+    int ldrValue = analogRead(ldrPin);
+    int normalizedLdrValue = map(ldrValue, 0, ldrMax, 0, 100);
+    return normalizedLdrValue;
 }
