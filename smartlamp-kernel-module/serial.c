@@ -68,7 +68,7 @@ static void usb_disconnect(struct usb_interface *interface) {
 static int usb_read_serial() {
     int ret, actual_size;
     int retries = 10;  // Tenta algumas vezes receber uma resposta da USB. Depois desiste.
-    char pattern[] = "RES_LDR 1";  // auxiliar para ver se o comando é RES_LDR 1 
+    char pattern[] = "RES_LDR ";  // Auxiliar para ver se o comando inicia com RES_LDR  
     int pattern_len = strlen(pattern);  // tamanho
     int X = 0;  // Valor esperado
 
@@ -83,12 +83,15 @@ static int usb_read_serial() {
             continue;
         }
 
-        //checar se é  "RES_LDR 1"
+        // Verificar se a string inicial recebida é valida
         if (strncmp(usb_in_buffer, pattern, pattern_len) == 0) {
-            //converte para int
-            if (kstrtoint(usb_in_buffer + pattern_len, 10, &X) == 0) {
-                return X;
-            } 
+            int actual_index = 0;
+            // Lê até o final da string
+            while(usb_in_buffer[actual_index] != '\0'){
+                actual_index++;
+            }
+
+            return usb_in_buffer[actual_index-1];
         } else {
             printk(KERN_ERR "SmartLamp: Resposta inesperada do dispositivo: %s\n", usb_in_buffer);
         }

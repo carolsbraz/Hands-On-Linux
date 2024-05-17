@@ -96,6 +96,8 @@ static int usb_read_serial() {
             continue;
         }
 
+        
+
         //caso tenha recebido a mensagem 'RES_LDR X' via serial acesse o buffer 'usb_in_buffer' e retorne apenas o valor da resposta X
         //retorne o valor de X em inteiro
         return 0;
