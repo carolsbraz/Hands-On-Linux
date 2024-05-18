@@ -42,6 +42,6 @@ __used __section("__versions") = {
 
 MODULE_INFO(depends, "");
 
-MODULE_ALIAS("usb:v10C4pEAC0d*dc*dsc*dp*ic*isc*ip*in*");
+MODULE_ALIAS("usb:v10C4pEA60d*dc*dsc*dp*ic*isc*ip*in*");
 
-MODULE_INFO(srcversion, "1530F0FAA0F18DEE44D11DA");
+MODULE_INFO(srcversion, "E770AC1D78D3883022E0399");

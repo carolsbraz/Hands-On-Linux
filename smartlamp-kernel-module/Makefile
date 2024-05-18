@@ -1,4 +1,4 @@
-obj-m += serial.o
+obj-m += smartlamp.o
 PWD := $(CURDIR)
 
 all:

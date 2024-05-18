@@ -16,7 +16,7 @@ static char *usb_in_buffer, *usb_out_buffer;       // Buffers de entrada e saíd
 static int usb_max_size;                           // Tamanho máximo de uma mensagem USB
 
 #define VENDOR_ID   0x10C4 /* Encontre o VendorID  do smartlamp */
-#define PRODUCT_ID  0XEAC0 /* Encontre o ProductID do smartlamp */
+#define PRODUCT_ID  0XEA60 /* Encontre o ProductID do smartlamp */
 static const struct usb_device_id id_table[] = { { USB_DEVICE(VENDOR_ID, PRODUCT_ID) }, {} };
 
 static int  usb_probe(struct usb_interface *ifce, const struct usb_device_id *id); // Executado quando o dispositivo é conectado na USB
@@ -68,9 +68,8 @@ static void usb_disconnect(struct usb_interface *interface) {
 static int usb_read_serial() {
     int ret, actual_size;
     int retries = 10;  // Tenta algumas vezes receber uma resposta da USB. Depois desiste.
-    char pattern[] = "RES_LDR ";  // Auxiliar para ver se o comando inicia com RES_LDR  
-    int pattern_len = strlen(pattern);  // tamanho
     int X = 0;  // Valor esperado
+    int i = 0;
 
     // Espera pela resposta correta do dispositivo (desiste depois de várias tentativas)
     while (retries > 0) {
@@ -83,20 +82,14 @@ static int usb_read_serial() {
             continue;
         }
 
-        // Verificar se a string inicial recebida é valida
-        if (strncmp(usb_in_buffer, pattern, pattern_len) == 0) {
-            int actual_index = 0;
-            // Lê até o final da string
-            while(usb_in_buffer[actual_index] != '\0'){
-                actual_index++;
-            }
-
-            return usb_in_buffer[actual_index-1];
-        } else {
-            printk(KERN_ERR "SmartLamp: Resposta inesperada do dispositivo: %s\n", usb_in_buffer);
+        for(i = 0; i < actual_size; i++){
+            printk(KERN_INFO "Byte %d: 0x%02x\n", i, usb_in_buffer[i] & 0xff);
         }
+
         retries--;
     }
+
+    return X;
 
 }
         
