@@ -15,8 +15,8 @@ static uint usb_in, usb_out;                       // Endereços das portas de e
 static char *usb_in_buffer, *usb_out_buffer;       // Buffers de entrada e saída da USB
 static int usb_max_size;                           // Tamanho máximo de uma mensagem USB
 
-#define VENDOR_ID   SUBSTITUA_PELO_VENDORID /* Encontre o VendorID  do smartlamp */
-#define PRODUCT_ID  SUBSTITUA_PELO_PRODUCTID /* Encontre o ProductID do smartlamp */
+#define VENDOR_ID   0x10C4 /* Encontre o VendorID  do smartlamp */
+#define PRODUCT_ID  0XEA60 /* Encontre o ProductID do smartlamp */
 static const struct usb_device_id id_table[] = { { USB_DEVICE(VENDOR_ID, PRODUCT_ID) }, {} };
 
 static int  usb_probe(struct usb_interface *ifce, const struct usb_device_id *id); // Executado quando o dispositivo é conectado na USB
@@ -80,6 +80,7 @@ static void usb_disconnect(struct usb_interface *interface) {
     printk(KERN_INFO "SmartLamp: Dispositivo desconectado.\n");
     kfree(usb_in_buffer);                   // Desaloca buffers
     kfree(usb_out_buffer);
+    sysfs_remove_group(sys_obj, &attr_group);
 }
 
 static int usb_read_serial() {
@@ -116,6 +117,12 @@ static ssize_t attr_show(struct kobject *sys_obj, struct kobj_attribute *attr, c
 
     // printk indicando qual arquivo está sendo lido
     printk(KERN_INFO "SmartLamp: Lendo %s ...\n", attr_name);
+
+    if(strcmp(attr_name, "led") == 0){
+        printk(KERN_INFO "Equipe5\n");
+    }else if(strcmp(attr_name, "ldr") == 0){
+        printk(KERN_INFO "DevTITANS\n");
+    }
 
     // Implemente a leitura do valor do led usando a função usb_read_serial()
         
