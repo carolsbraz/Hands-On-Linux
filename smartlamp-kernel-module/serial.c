@@ -69,27 +69,38 @@ static int usb_read_serial() {
     int ret, actual_size;
     int retries = 10;  // Tenta algumas vezes receber uma resposta da USB. Depois desiste.
     int X = 0;  // Valor esperado
-    int i = 0;
+    int X = 0;  // Valor do LDR a ser extraído
+    char *start_ptr;
 
     // Espera pela resposta correta do dispositivo (desiste depois de várias tentativas)
     while (retries > 0) {
         // Lê os dados da porta serial e armazena em usb_in_buffer
         // usb_in_buffer - contem a resposta em string do dispositivo
         // actual_size - contem o tamanho da resposta em bytes
-        ret = usb_bulk_msg(smartlamp_device, usb_rcvbulkpipe(smartlamp_device, usb_in), usb_in_buffer, min(usb_max_size, MAX_RECV_LINE), &actual_size, 1000);
+        ret = usb_bulk_msg(smartlamp_device, usb_rcvbulkpipe(smartlamp_device, usb_in), usb_in_buffer, usb_max_size, &actual_size, 1000);
         if (ret) {
             printk(KERN_ERR "SmartLamp: Erro ao ler dados da USB (tentativa %d). Codigo: %d\n", retries--, ret);
+            retries--;
             continue;
         }
 
-        for(i = 0; i < actual_size; i++){
-            printk(KERN_INFO "Byte %d: 0x%02x\n", i, usb_in_buffer[i] & 0xff);
+        // Encerra a string corretamente
+        usb_in_buffer[actual_size] = '\0';
+        // Procura pela string esperada "RES GET_LDR"
+        start_ptr = strstr(usb_in_buffer, "RES GET_LDR ");
+        if (start_ptr) {
+            // Extrai o valor numérico que segue o "RES GET_LDR "
+            sscanf(start_ptr, "RES GET_LDR %d", &X);
+            printk(KERN_INFO "SmartLamp: LDR Value Received: %d\n", X);
+            return X;  // Retorna o valor do LDR extraído
+        } else {
+            printk(KERN_INFO "SmartLamp: Mensagem recebida não contém 'RES GET_LDR'\n");
         }
 
         retries--;
     }
 
-    return X;
-
+    printk(KERN_ERR "SmartLamp: Falha em receber uma resposta válida após várias tentativas.\n");
+    return -1;  // Retorna erro se não conseguir extrair o valor após várias tentativas
 }
         
