@@ -1,5 +1,5 @@
 smartlamp.o: \
- /home/devtitans-1/Documents/Smartlamp/Hands-On-Linux/smartlamp-kernel-module/smartlamp.c \
+ /home/devtitans-1/Hands-On-Linux/smartlamp-kernel-module/smartlamp.c \
  include/linux/compiler-version.h include/linux/kconfig.h \
  include/generated/autoconf.h include/linux/compiler_types.h \
  include/linux/compiler_attributes.h include/linux/compiler-gcc.h \

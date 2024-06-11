@@ -1,4 +1,4 @@
-obj-m += smartlamp.o
+obj-m += serial_write.o
 PWD := $(CURDIR)
 
 all:
