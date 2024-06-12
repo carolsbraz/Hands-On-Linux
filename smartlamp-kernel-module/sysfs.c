@@ -80,7 +80,7 @@ static void usb_disconnect(struct usb_interface *interface) {
     printk(KERN_INFO "SmartLamp: Dispositivo desconectado.\n");
     kfree(usb_in_buffer);                   // Desaloca buffers
     kfree(usb_out_buffer);
-    sysfs_remove_group(sys_obj, &attr_group);
+    kobject_put(sys_obj);
 }
 
 static int usb_read_serial() {
@@ -137,6 +137,12 @@ static ssize_t attr_show(struct kobject *sys_obj, struct kobj_attribute *attr, c
 static ssize_t attr_store(struct kobject *sys_obj, struct kobj_attribute *attr, const char *buff, size_t count) {
     long ret, value;
     const char *attr_name = attr->attr.name;
+
+    if(strcmp(attr_name, "ldr") == 0){
+        printk(KERN_ERR "SmartLamp: Nao e possivel escrever no arquivo ldr\n");
+        return -EACCES;
+    }
+
 
     // Converte o valor recebido para long
     ret = kstrtol(buff, 10, &value);

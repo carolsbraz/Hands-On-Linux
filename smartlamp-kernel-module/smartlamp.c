@@ -118,7 +118,20 @@ static int usb_send_cmd(char *cmd, int param) {
         }
 
         // adicione a sua implementação do médodo usb_read_serial
-        usb_read_serial();
+        // usb_read_serial();
+
+        // Encerra a string corretamente
+        usb_in_buffer[actual_size] = '\0';
+        // Procura pela string esperada "RES GET_LDR"
+        start_ptr = strstr(usb_in_buffer, "RES GET_LDR ");
+        if (start_ptr) {
+            // Extrai o valor numérico que segue o "RES GET_LDR "
+            sscanf(start_ptr, "RES GET_LDR %d", &X);
+            printk(KERN_INFO "SmartLamp: LDR Value Received: %d\n", X);
+            return X;  // Retorna o valor do LDR extraído
+        } else {
+            printk(KERN_INFO "SmartLamp: Mensagem recebida não contém 'RES GET_LDR'\n");
+        }
 
     }
     return -1; // Não recebi a resposta esperada do dispositivo
