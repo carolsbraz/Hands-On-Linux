@@ -108,7 +108,7 @@ static int usb_probe(struct usb_interface *interface, const struct usb_device_id
     usb_out_buffer = kmalloc(usb_max_size, GFP_KERNEL);
 
     usb_send_cmd("SET_LED", 80);
-    usb_send_cmd("GET_LED", -1);
+    
 
     LDR_value = usb_read_serial();
 
@@ -169,9 +169,9 @@ static ssize_t attr_show(struct kobject *sys_obj, struct kobj_attribute *attr, c
     printk(KERN_INFO "SmartLamp: Lendo %s ...\n", attr_name);
 
     if(strcmp(attr_name, "led") == 0){
-        printk(KERN_INFO "Equipe5\n");
+        usb_send_cmd("GET_LED", -1);
     }else if(strcmp(attr_name, "ldr") == 0){
-        printk(KERN_INFO "DevTITANS\n");
+        usb_send_cmd("GET_LDR", -1);
     }
 
     // Implemente a leitura do valor do led usando a função usb_read_serial()
@@ -202,6 +202,8 @@ static ssize_t attr_store(struct kobject *sys_obj, struct kobj_attribute *attr, 
     }
 
     printk(KERN_INFO "SmartLamp: Setando %s para %ld ...\n", attr_name, value);
+
+    usb_send_cmd("SET_LED", value);
 
     if (ret < 0) {
         printk(KERN_ALERT "SmartLamp: erro ao setar o valor do %s.\n", attr_name);
