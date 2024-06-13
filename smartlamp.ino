@@ -1,68 +1,64 @@
+#include <DHT.h>
+
 // Defina os pinos de LED e LDR
-int ledPin = 16;
-int ldrPin = 4;
+const int ledPin = 2; // Por exemplo, use o pino 2 para o LED
+const int ldrPin = 34; // Por exemplo, use o pino 34 para o LDR (analog)
+const int dhtPin = 4; // Por exemplo, use o pino 4 para o DHT11
+
+#define DHTTYPE DHT11
 
 // Defina uma variável com valor máximo do LDR (4000)
-int ldrMax = 4000;
+const int ldrMax = 4000;
 
 // Defina uma variável para guardar o valor atual do LED (10)
 int ledValue = 10;
 
 void setup() {
     Serial.begin(9600);
+    
     pinMode(ledPin, OUTPUT);
     pinMode(ldrPin, INPUT);
-    
-    // Inicializa o LED com o valor padrão
-    ledUpdate();
-    
-    Serial.printf("SmartLamp Initialized.\n");
 
-    processCommand("GET_LDR");
+    dht.begin();
 
+    Serial.println("SmartLamp Initialized.");
 }
 
-// Função loop será executada infinitamente pelo ESP32
 void loop() {
-    // Obtenha os comandos enviados pela serial 
-    // e processe-os com a função processCommand
-    if (Serial.available()) {
+    // Obtenha os comandos enviados pela serial e processe-os com a função processCommand
+    if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
         processCommand(command);
     }
 }
 
 void processCommand(String command) {
-    command.trim();
-    
-    if (command.startsWith("SET_LED ")) {
-        int intensity = command.substring(8).toInt();
-        if (intensity >= 0 && intensity <= 100) {
-            ledValue = intensity;
-            ledUpdate();
-            Serial.println("RES SET_LED 1");
-        } else {
-            Serial.println("RES SET_LED -1");
-        }
-    } else if (command.equals("GET_LED")) {
-        Serial.printf("RES GET_LED %d\n", ledValue);
-    } else if (command.equals("GET_LDR")) {
-        int ldrValue = ldrGetValue();
-        Serial.printf("RES GET_LDR %d\n", ldrValue);
-    } else {
-        Serial.println("ERR Unknown command.");
+    // Compare o comando com os comandos possíveis e execute a ação correspondente
+    if (command == "LED_ON") {
+        ledValue = 255; // Defina o valor máximo para ligar o LED completamente
+        ledUpdate();
+    } else if (command == "LED_OFF") {
+        ledValue = 0; // Desligue o LED completamente
+        ledUpdate();
+    } else if (command == "GET_TEMP") {
+        float temp = dht.readTemperature();
+        Serial.print("Temperature: ");
+        Serial.println(temp);
+    } else if (command == "GET_HUM") {
+        float hum = dht.readHumidity();
+        Serial.print("Humidity: ");
+        Serial.println(hum);
     }
 }
 
-// Função para atualizar o valor do LED
 void ledUpdate() {
-    int normalizedValue = map(ledValue, 0, 100, 0, 255);
-    analogWrite(ledPin, normalizedValue);
+    // Normalize o valor do LED antes de enviar para a porta correspondente
+    int ledBrightness = map(ledValue, 0, 255, 0, 1023); // Normaliza o valor para a faixa do PWM do ESP32
+    analogWrite(ledPin, ledBrightness);
 }
 
-// Função para ler o valor do LDR
 int ldrGetValue() {
+    // Leia o sensor LDR e retorne o valor normalizado
     int ldrValue = analogRead(ldrPin);
-    int normalizedLdrValue = map(ldrValue, 0, ldrMax, 0, 100);
-    return normalizedLdrValue;
+    return ldrValue;
 }
