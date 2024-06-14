@@ -97,8 +97,28 @@ static int usb_read_serial() {
             printk(KERN_INFO "SmartLamp: LDR Value Received: %d\n", X);
             return X;  // Retorna o valor do LDR extraído
         } else {
-            printk(KERN_INFO "recebeu isso aqui %s\n", usb_in_buffer);
-            //printk(KERN_INFO "SmartLamp: Mensagem recebida não contém 'RES GET_LDR'\n");
+            start_ptr = strstr(usb_in_buffer, "RES SET_LED ");
+
+            if (start_ptr) {
+                // Extrai o valor numérico que segue o "RES GET_LDR "
+                sscanf(start_ptr, "RES SET_LED %d", &X);
+                printk(KERN_INFO "SmartLamp: LED VALUE SENT");
+                return X;  // Retorna o valor do LDR extraído
+            } else {
+
+                start_ptr = strstr(usb_in_buffer, "RES GET_LED ");
+
+                if (start_ptr) {
+                    // Extrai o valor numérico que segue o "RES GET_LDR "
+                    sscanf(start_ptr, "RES GET_LED %d", &X);
+                    printk(KERN_INFO "SmartLamp: LED Value Received: %d\n", X);
+                    return X;  // Retorna o valor do LDR extraído
+                } else {
+                    printk(KERN_INFO "Algo inesperado recebido: %s\n", usb_in_buffer);
+                }
+
+            }
+           //printk(KERN_INFO "SmartLamp: Mensagem recebida não contém 'RES GET_LDR'\n");
         }
 
         retries--;
