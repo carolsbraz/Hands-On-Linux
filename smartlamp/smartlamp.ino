@@ -1,7 +1,6 @@
 #include <DHT.h>
 #include <Arduino.h>
 #include <analogWrite.h>
-#include <DHT.h>
 
 // Defina os pinos de LED e LDR
 const int ledPin = 15; // Por exemplo, use o pino 2 para o LED
