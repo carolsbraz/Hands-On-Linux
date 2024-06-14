@@ -88,6 +88,7 @@ static int usb_read_serial() {
 
         // Encerra a string corretamente
         usb_in_buffer[actual_size] = '\0';
+        
         // Procura pela string esperada "RES GET_LDR"
         start_ptr = strstr(usb_in_buffer, "RES GET_LDR ");
         if (start_ptr) {
@@ -96,7 +97,8 @@ static int usb_read_serial() {
             printk(KERN_INFO "SmartLamp: LDR Value Received: %d\n", X);
             return X;  // Retorna o valor do LDR extraído
         } else {
-            printk(KERN_INFO "SmartLamp: Mensagem recebida não contém 'RES GET_LDR'\n");
+            printk(KERN_INFO "recebeu isso aqui %s\n", usb_in_buffer);
+            //printk(KERN_INFO "SmartLamp: Mensagem recebida não contém 'RES GET_LDR'\n");
         }
 
         retries--;
