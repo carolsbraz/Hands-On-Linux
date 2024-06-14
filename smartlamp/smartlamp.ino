@@ -26,6 +26,8 @@ void setup() {
     dht.begin();
 
     Serial.println("SmartLamp Initialized.");
+    processCommand("GET_LDR\n");
+
 }
 
 void loop() {
