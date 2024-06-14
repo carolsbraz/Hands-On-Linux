@@ -3,9 +3,9 @@
 #include <analogWrite.h>
 
 // Defina os pinos de LED e LDR
-const int ledPin = 15; // Por exemplo, use o pino 15 para o LED (PWM)
-const int ldrPin = 36; // Por exemplo, use o pino 36 para o LDR (analog)
-const int dhtPin = 4;  // Por exemplo, use o pino 4 para o DHT11
+const int ledPin = 15; // Por exemplo, use o pino 2 para o LED
+const int ldrPin = 36; // Por exemplo, use o pino 34 para o LDR (analog)
+const int dhtPin = 4; // Por exemplo, use o pino 4 para o DHT11
 
 #define DHTTYPE DHT11
 
@@ -23,9 +23,11 @@ void setup() {
     pinMode(ledPin, OUTPUT);
     pinMode(ldrPin, INPUT);
 
-    dht.begin(); // Inicie o sensor DHT
+    dht.begin();
 
     Serial.println("SmartLamp Initialized.");
+    processCommand("GET_LDR\n");
+
 }
 
 void loop() {
@@ -51,26 +53,27 @@ void processCommand(String command) {
         Serial.printf("RES SET_LED -1\n");
       }
     } else if (command.equals(String("GET_TEMP"))) {
-      //Serial.print("RES GET_TEMP ");
-      //Serial.print(GetTemperature());
-      Serial.print("\n");
+        float temp = dht.readTemperature();
+        Serial.print("RES GET_TEMP ");
+        Serial.print(temp);
+        Serial.print("\n");
     } else if (command.equals(String("GET_HUM"))) {
-      //Serial.print("RES GET_HUM ");
-      //Serial.print(GetHumidity());
-      //Serial.print("\n");
+        float hum = dht.readHumidity();
+        Serial.print("RES GET_HUM ");
+        Serial.print(hum);
+        Serial.print("\n");
     } else {
       Serial.printf("ERR Unknown command.");
-    }
+    } 
 }
-
 
 void ledUpdate(int value) {
-    // Valor deve convertar o valor recebido pelo comando SET_LED para 0 e 255
     // Normalize o valor do LED antes de enviar para a porta correspondente
-    int led_value_norm = map(value, 0, 100, 0, 255);
-    ledValue = value;
-    analogWrite(ledPin, led_value_norm);
+    ledValue = value;  // Atualiza o valor global do LED
+    int ledBrightness = map(ledValue, 0, 100, 0, 255); // Normaliza para a faixa do PWM do ESP32
+    analogWrite(ledPin, ledBrightness);
 }
+
 
 int ldrGetValue() {
     // Leia o sensor LDR e retorne o valor normalizado
