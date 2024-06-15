@@ -118,15 +118,20 @@ static ssize_t attr_show(struct kobject *sys_obj, struct kobj_attribute *attr, c
     // printk indicando qual arquivo está sendo lido
     printk(KERN_INFO "SmartLamp: Lendo %s ...\n", attr_name);
 
-    if(strcmp(attr_name, "led") == 0){
-        printk(KERN_INFO "Equipe5\n");
-    }else if(strcmp(attr_name, "ldr") == 0){
-        printk(KERN_INFO "DevTITANS\n");
+    if (strcmp(attr_name, "led") == 0) {
+        value = usb_send_cmd("GET_LED", -1);
+        snprintf(buff, PAGE_SIZE, "%d\n", value);
+    } else if (strcmp(attr_name, "ldr") == 0) {
+        value = usb_send_cmd("GET_LDR", -1);
+        snprintf(buff, PAGE_SIZE, "%d\n", value);
+    } else if (strcmp(attr_name, "temp") == 0) {
+        fvalue = usb_send_cmd("GET_TEMP", -1);
+        snprintf(buff, PAGE_SIZE, "%.2f\n", fvalue);
+    } else if (strcmp(attr_name, "hum") == 0) {
+        fvalue = usb_send_cmd("GET_HUM", -1);
+        snprintf(buff, PAGE_SIZE, "%.2f\n", fvalue);
     }
-
-    // Implemente a leitura do valor do led usando a função usb_read_serial()
         
-
     sprintf(buff, "%d\n", value);                   // Cria a mensagem com o valor do led, ldr
     return strlen(buff);
 }
