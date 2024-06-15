@@ -19,8 +19,7 @@ Bem-vindo ao repositório da Equipe 0X do HandsON de Linux do DevTITANS! Este pr
 
 <img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
 <img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
-<img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e![cartao](https://github.com/carolsbraz/Hands-On-Linux/assets/82911261/61f586ff-fefd-49c6-94ee-921daae93957)
-856c67b" width="180" >
+![cartao](https://github.com/carolsbraz/Hands-On-Linux/assets/82911261/638fc42c-3b29-4ad5-a7ad-7c25e28e8045)
 <img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
 <img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
 
@@ -34,7 +33,7 @@ Bem-vindo ao repositório da Equipe 0X do HandsON de Linux do DevTITANS! Este pr
 
 Este projeto serve como um exemplo para desenvolvedores interessados em construir e integrar soluções de hardware personalizadas com sistemas Linux. Inclui os seguintes componentes:
 - Firmware para o microcontrolador ESP32 para lidar com operações específicas do dispositivo.
-- Um driver do kernel Linux que se comunica com o dispositivo ESP32, permitindo troca de dados e controle.![cartao](https://github.com/carolsbraz/Hands-On-Linux/assets/82911261/638fc42c-3b29-4ad5-a7ad-7c25e28e8045)
+- Um driver do kernel Linux que se comunica com o dispositivo ESP32, permitindo troca de dados e controle.
 
 
 ## Recursos
