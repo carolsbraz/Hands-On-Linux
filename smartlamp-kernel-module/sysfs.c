@@ -136,6 +136,12 @@ static ssize_t attr_show(struct kobject *sys_obj, struct kobj_attribute *attr, c
     return strlen(buff);
 }
 
+// Adicionar atributos para temperatura e umidade
+static struct kobj_attribute temp_attribute = __ATTR(temp, S_IRUGO, attr_show, NULL);
+static struct kobj_attribute hum_attribute = __ATTR(hum, S_IRUGO, attr_show, NULL);
+
+// Atualizar o array de atributos para incluir temp e hum
+static struct attribute *attrs[] = { &led_attribute.attr, &ldr_attribute.attr, &temp_attribute.attr, &hum_attribute.attr, NULL };
 
 // Essa função não deve ser alterada durante a task sysfs
 // Executado quando o arquivo /sys/kernel/smartlamp/{led, ldr} é escrito (e.g., echo "100" | sudo tee -a /sys/kernel/smartlamp/led)
