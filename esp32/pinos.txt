@@ -1,0 +1,11 @@
+Há três pinos principais para controlar um LED, ler valores de um sensor LDR (sensor de luz) e um sensor DHT11 para medição de temperatura e umidade. 
+Aqui está a descrição de cada um dos pinos configurados:
+
+1. **ledPin (Pino 15)**: Configurado como saída (OUTPUT), este pino é usado para controlar um LED. O valor do LED pode variar entre 0 (desligado) e 255 (máximo brilho), sendo controlado pelo PWM para ajustar a intensidade de luz do LED com base em um valor recebido por comandos.
+
+2. **ldrPin (Pino 36)**: Este pino está configurado como entrada (INPUT) e é usado para conectar um sensor LDR. O sensor LDR mede a intensidade da luz ambiente. O valor lido pelo LDR é analógico e reflete a intensidade luminosa; quanto maior o valor, maior é a intensidade da luz detectada.
+
+3. **dhtPin (Pino 4)**: Este pino é usado para conectar o sensor DHT11, um sensor de temperatura e umidade. O sensor é inicializado com o tipo DHT11 e mede tanto a temperatura quanto a umidade ambiental. Os dados lidos são enviados serialmente quando comandos específicos são recebidos.
+
+Responsável: 
+**Elias
