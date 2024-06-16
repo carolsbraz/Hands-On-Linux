@@ -1,5 +1,6 @@
 
 
+
 # DevTITANS 05 - HandsOn Linux - Equipe 05
 
 Bem-vindo ao repositório da Equipe 05 do HandsON de Linux do DevTITANS! Este projeto contém um firmware para o ESP32 escrito em formato Arduino `.ino`, bem como um driver do kernel Linux escrito em C. O objetivo é demonstrar como criar uma solução completa de hardware e software que integra um dispositivo ESP32 com um sistema Linux.
@@ -19,16 +20,19 @@ Bem-vindo ao repositório da Equipe 05 do HandsON de Linux do DevTITANS! Este pr
 ## Contribuidores
 
 
+
 <img src="https://github.com/carolsbraz/Hands-On-Linux/assets/48094755/54527fe6-91c6-4575-8e5d-537521bb0c52" width="180" >
 <img src="https://github.com/carolsbraz/Hands-On-Linux/assets/82911261/638fc42c-3b29-4ad5-a7ad-7c25e28e8045" width="180" >
 <img src="https://github.com/carolsbraz/Hands-On-Linux/assets/77069743/65db2a9b-d9d0-4988-8bae-38c596e49f63" width="180" >
 <img src="https://github.com/carolsbraz/Hands-On-Linux/assets/82911261/9ad7f862-1118-494d-9763-81f62a19aec4" width="180" >
 <img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
 
-- **Caroline Soares Braz:** Desenvolvedor do Driver Linux e Mantenedor do Projeto
-- **Miguel Pinheiro Leite:** Desenvolvedor do Driver Linux
-- **Elias Alexander Santos:** Desenvolvedor do Firmware
-- **Mathias Guilherme Gama Teixeira:** Desenvolvedor do Firmware
+
+
+- **Caroline Soares Braz:** Desenvolvedor do Driver Linux e Mantenedor do Projeto  ([carolsbraz](https://github.com/carolsbraz))
+- **Miguel Pinheiro Leite:** Desenvolvedor do Driver Linux ([DevMiguelPinheiro](https://github.com/DevMiguelPinheiro))
+- **Elias Alexander Santos:** Desenvolvedor do Firmware ([elias-12alex](https://github.com/elias-12alex))
+- **Mathias Guilherme Gama Teixeira:** Desenvolvedor do Firmware ([mathiasgteixeira](https://github.com/mathiasgteixeira))
 - **Nomes dos(a) Alunos(a) 05:** Desenvolvedor do ...
   
 ## Introdução
