@@ -26,6 +26,8 @@ Bem-vindo ao repositório da Equipe 05 do HandsON de Linux do DevTITANS! Este pr
 <img src="https://github.com/carolsbraz/Hands-On-Linux/assets/77069743/65db2a9b-d9d0-4988-8bae-38c596e49f63" width="180" >
 <img src="https://github.com/carolsbraz/Hands-On-Linux/assets/82911261/9ad7f862-1118-494d-9763-81f62a19aec4" width="180" >
 <img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
+<img src="https://github.com/carolsbraz/Hands-On-Linux/assets/152040671/563489d3-1ef0-4cba-a606-d5dda002218a" width="180" >
+
 
 
 
@@ -33,7 +35,7 @@ Bem-vindo ao repositório da Equipe 05 do HandsON de Linux do DevTITANS! Este pr
 - **Miguel Pinheiro Leite:** Desenvolvedor do Driver Linux ([DevMiguelPinheiro](https://github.com/DevMiguelPinheiro))
 - **Elias Alexander Santos:** Desenvolvedor do Firmware ([elias-12alex](https://github.com/elias-12alex))
 - **Mathias Guilherme Gama Teixeira:** Desenvolvedor do Firmware ([mathiasgteixeira](https://github.com/mathiasgteixeira))
-- **Nomes dos(a) Alunos(a) 05:** Desenvolvedor do ...
+- **Fabrício Falcão de Souza Oliveira:** Desenvolvedor do Firmware ([fabriciofalcon](https://github.com/fabriciofalcon))
   
 ## Introdução
 
